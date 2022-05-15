@@ -1,10 +1,14 @@
+import org.asynchttpclient.util.DateUtils;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,13 +20,15 @@ public class HerokuApp {
     String password = "12345";
     LocalDate date = LocalDate.now();
 
+
     @BeforeEach
     public void SetUpDriver(){
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe" );
+
         ChromeOptions options = new ChromeOptions();
         options.addArguments("incognito");
         options.addArguments("start-maximized");
-        options.setHeadless(true);
+        options.setHeadless(false);
         driver = new ChromeDriver(options);
     }
 
@@ -100,9 +106,11 @@ public class HerokuApp {
     @Order(5)
     public void updateProduct(){
         //GIVEN
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(500L));
         fillInLoginPage();
         addProduct();
-        WebElement updateButtonOfAddedProduct = driver.findElement(By.xpath("//td[starts-with(text(),'2022-05-08')]/following::td/div/form/child::button[contains(text(),'Update')]"));
+        WebElement updateButtonOfAddedProduct = driver.findElement(By.xpath("//td[contains(text(),'"+ date +"')]/following::td/div/form/child::button[contains(text(),'Update')]"));
+        wait.until(ExpectedConditions.elementToBeClickable(updateButtonOfAddedProduct));
         updateButtonOfAddedProduct.click();
         String productName = driver.findElement(By.xpath("//input[@id='exampleInputProduct1']")).getText();
         driver.findElement(By.xpath("//input[@id='exampleInputProduct1']")).sendKeys(productName + " Edit");
@@ -122,12 +130,7 @@ public class HerokuApp {
         int initialSize = listElementsSize();
 
         //WHEN
-        if (initialSize > 0){
-            clickDeleteButton();
-        }else {
-            addProduct();
-            clickDeleteButton();
-        }
+        deleteElement(initialSize);
 
         int sizeAfterDelete = listElementsSize();
         if (sizeAfterDelete < initialSize || sizeAfterDelete == 0){
@@ -136,6 +139,15 @@ public class HerokuApp {
 
         //THEN
         Assertions.assertTrue(actualResult);
+    }
+
+    private void deleteElement(int initialSize) {
+        if (initialSize > 0){
+            clickDeleteButton();
+        }else {
+            addProduct();
+            clickDeleteButton();
+        }
     }
 
 
@@ -177,5 +189,5 @@ public class HerokuApp {
     public void clickDeleteButton(){
         driver.findElement(By.xpath("(//button[@type='submit'][normalize-space()='Delete'])[1]")).click();
     }
-
+    
 }
