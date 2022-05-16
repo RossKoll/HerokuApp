@@ -141,6 +141,7 @@ public class HerokuApp {
         Assertions.assertTrue(actualResult);
     }
 
+
     private void deleteElement(int initialSize) {
         if (initialSize > 0){
             clickDeleteButton();
