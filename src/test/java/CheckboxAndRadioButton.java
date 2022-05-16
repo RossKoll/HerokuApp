@@ -21,7 +21,7 @@ public class CheckboxAndRadioButton {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("incognito");
         options.addArguments("start-maximized");
-        options.setHeadless(true);
+        options.setHeadless(false);
         driver = new ChromeDriver(options);
     }
 
@@ -113,8 +113,10 @@ public class CheckboxAndRadioButton {
         //WHEN
         WebElement radioButtonDisabled = driver.findElement(By.xpath("//input[@id='flexRadioDisabled']"));
 
+        String radioButtonStatus = radioButtonDisabled.getAttribute("disabled");
+        Boolean isRadioButtonDisabled = Boolean.parseBoolean(radioButtonStatus);
         //THEN
-        Assertions.assertFalse(radioButtonDisabled.isEnabled());
+        Assertions.assertTrue(isRadioButtonDisabled);
 
     }
 
