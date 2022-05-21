@@ -25,10 +25,7 @@ public class Login extends Base {
         String password = "fakePassword";
 
         //WHEN
-        loginPage.openLoginPage(driver);
-        loginPage.setEmail(driver,email);
-        loginPage.setPassword(driver,password);
-        loginPage.submit(driver);
+        loginPage.fillInInfo(email,password,driver);
 
         //THEN
         loginPage.checkRegisterPageOpened(wait);

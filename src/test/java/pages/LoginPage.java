@@ -37,6 +37,13 @@ public class LoginPage{
         return this;
     }
 
+    public void fillInInfo(String email, String password, WebDriver driver){
+        openLoginPage(driver);
+        setEmail(driver,email);
+        setPassword(driver,password);
+        submit(driver);
+    }
+
     public void checkRegisterPageOpened(WebDriverWait wait) {
         Boolean registrationPageURL = wait.until(ExpectedConditions.urlContains("registration"));
         Assertions.assertTrue(registrationPageURL);
