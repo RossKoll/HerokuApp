@@ -1,12 +1,11 @@
 package scenarios;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pages.LoginPage;
 import pages.RegisterPage;
 
 
-public class Login extends base{
+public class Login extends Base {
 
     private static LoginPage loginPage;
     private static RegisterPage registerPage;
