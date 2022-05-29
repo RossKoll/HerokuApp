@@ -1,4 +1,4 @@
-package scenarios;
+package base;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,11 +11,12 @@ import java.time.Duration;
 
 public class Base {
 
-    protected static WebDriver driver;
-    static WebDriverWait wait;
+    public static WebDriver driver;
+    public static WebDriverWait wait;
 
-    @BeforeEach
-    public void SetUpDriver() {
+
+
+    public Base() {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
 
         ChromeOptions options = new ChromeOptions();
@@ -23,13 +24,10 @@ public class Base {
         options.addArguments("start-maximized");
         options.setHeadless(false);
         driver = new ChromeDriver(options);
-
         wait = new WebDriverWait(driver, Duration.ofMillis(3000L));
+
     }
 
-    @AfterEach
-    public void exit() {
-        driver.quit();
-    }
+
 
 }

@@ -1,50 +1,65 @@
 package pages;
 
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class LoginPage{
 
 
+    private WebDriver driver;
 
-    By emailField = By.id("exampleInputEmail1");
-    By passwordField = By.id("exampleInputPassword1");
-    By submitButton = By.xpath("//button[contains(text(),'Submit')]");
+    @FindBy(id = "exampleInputEmail1")
+         private WebElement emailField;
+    //By emailField = By.id("exampleInputEmail1");
 
-    public LoginPage(){
+    @FindBy (id = "exampleInputPassword1")
+        private WebElement passwordField;
+    //By passwordField = By.id("exampleInputPassword1");
+
+    @FindBy(xpath = "//button[contains(text(),'Submit')]")
+        private WebElement submitButton;
+    //By submitButton = By.xpath("//button[contains(text(),'Submit')]");
+
+    public LoginPage(WebDriver driver){
+        this.driver =  driver;
+
     }
 
-    public LoginPage openLoginPage(WebDriver driver){
+    public LoginPage openLoginPage(){
         driver.get("https://online-sh.herokuapp.com/login");
         return this;
     }
 
-    public LoginPage setEmail(WebDriver driver, String email){
-        driver.findElement(emailField).sendKeys(email);
+    public LoginPage setEmail(String email){
+        emailField.sendKeys(email);
         return this;
     }
 
-    public LoginPage setPassword(WebDriver driver, String password){
-        driver.findElement(passwordField).sendKeys(password);
+    public LoginPage setPassword( String password){
+        passwordField.sendKeys(password);
         return this;
     }
 
-    public LoginPage submit(WebDriver driver){
-        driver.findElement(submitButton).click();
+    public LoginPage submit(){
+        submitButton.click();
         return this;
     }
 
-    public void fillInInfo(String email, String password, WebDriver driver){
-        openLoginPage(driver);
-        setEmail(driver,email);
-        setPassword(driver,password);
-        submit(driver);
+    public void fillInInfo(String email, String password){
+        openLoginPage();
+        setEmail(email);
+        setPassword(password);
+        submit();
     }
 
-    public void checkRegisterPageOpened(WebDriverWait wait) {
+    public void checkRegisterPageOpened() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(500L));
         Boolean registrationPageURL = wait.until(ExpectedConditions.urlContains("registration"));
         Assertions.assertTrue(registrationPageURL);
     }
