@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -31,21 +32,25 @@ public class LoginPage{
 
     }
 
+    @Step("Open Login page")
     public LoginPage openLoginPage(){
         driver.get("https://online-sh.herokuapp.com/login");
         return this;
     }
 
+    @Step("Set email as {email}")
     public LoginPage setEmail(String email){
         emailField.sendKeys(email);
         return this;
     }
 
+    @Step("Set password as {password}")
     public LoginPage setPassword( String password){
         passwordField.sendKeys(password);
         return this;
     }
 
+    @Step("Click on Submit button")
     public LoginPage submit(){
         submitButton.click();
         return this;

@@ -1,7 +1,12 @@
 package scenarios;
 
 import base.Base;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.openqa.selenium.support.PageFactory;
 import pages.AllProductPage;
@@ -10,8 +15,10 @@ import pages.RegisterPage;
 
 import static base.Base.driver;
 
+@ExtendWith(ScreenshotTestWatcher.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class Login {
+@Feature("Login functionality")
+public class LoginCases {
 
     private static LoginPage loginPage;
 
@@ -20,6 +27,7 @@ public class Login {
 
 
     @BeforeAll
+    @Step("Set up driver before test")
     static void init() {
         Base baseSetUp = new Base();
         loginPage = PageFactory.initElements(Base.driver, LoginPage.class);
@@ -33,6 +41,9 @@ public class Login {
     @Test
     @Order(1)
     @DisplayName("login as new user")
+    @Step("Login as new user")
+    @Issue("6545")
+    @Description("Login successful with valid credential")
     public void login() {
 
         //GIVEN
@@ -91,7 +102,6 @@ public class Login {
     public static void exit() {
         driver.quit();
     }
-
 
 }
 
