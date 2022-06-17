@@ -14,6 +14,8 @@ public class LoginPage{
 
 
     private WebDriver driver;
+    private String registerEmail = "rosko48@gmail.com";
+    private String registerPassword = "12345";
 
     @FindBy(id = "exampleInputEmail1")
          private WebElement emailField;
@@ -67,6 +69,13 @@ public class LoginPage{
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(500L));
         Boolean registrationPageURL = wait.until(ExpectedConditions.urlContains("registration"));
         Assertions.assertTrue(registrationPageURL);
+    }
+
+    public void loginAsRegisterUser(){
+        openLoginPage()
+                .setEmail(registerEmail)
+                .setPassword(registerPassword)
+                .submit();
     }
 
 }

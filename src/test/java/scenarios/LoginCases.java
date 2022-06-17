@@ -11,7 +11,10 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.openqa.selenium.support.PageFactory;
 import pages.AllProductPage;
 import pages.LoginPage;
+import pages.ProductPage;
 import pages.RegisterPage;
+
+import java.time.LocalDate;
 
 import static base.Base.driver;
 
@@ -24,6 +27,9 @@ public class LoginCases {
 
     private static RegisterPage registerPage;
     private static AllProductPage allProductPage;
+    private static ProductPage productPage;
+    LocalDate date = LocalDate.now();
+    String name = "Product"+date;
 
 
     @BeforeAll
@@ -33,6 +39,7 @@ public class LoginCases {
         loginPage = PageFactory.initElements(Base.driver, LoginPage.class);
         registerPage = PageFactory.initElements(Base.driver, RegisterPage.class);
         allProductPage = PageFactory.initElements(Base.driver, AllProductPage.class);
+        productPage = PageFactory.initElements(driver, ProductPage.class);
     }
 
     @RegisterExtension
@@ -96,6 +103,19 @@ public class LoginCases {
                 .submit();
         //THEN
         registerPage.checkLoginPageOpened();
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("Add new Product")
+    public void addNewProduct(){
+        //GIVEN
+        loginPage.loginAsRegisterUser();
+        //WHEN
+        allProductPage.addProduct();
+        productPage.addNewProduct(name);
+        //THEN
+        org.assertj.core.api.Assertions.assertThat("http://online-sh.herokuapp.com/products");
     }
 
     @AfterAll
